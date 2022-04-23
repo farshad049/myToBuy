@@ -12,7 +12,7 @@ abstract class AppDatabase:RoomDatabase() {
    companion object{
        private var appDatabase: AppDatabase?=null
         fun getDatabase(context: Context): AppDatabase {
-            if (AppDatabase != null){
+            if (appDatabase != null){
                 return appDatabase!!
             }
             appDatabase =Room.databaseBuilder(context.applicationContext, AppDatabase::class.java,"to-buy-database").build()
