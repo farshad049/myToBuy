@@ -1,4 +1,4 @@
-package com.farshad.mytodo.model
+package com.farshad.mytodo.database.entity
 
 import androidx.room.Entity
 
