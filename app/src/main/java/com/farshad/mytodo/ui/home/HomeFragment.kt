@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
+import com.airbnb.epoxy.EpoxyTouchHelper
 import com.farshad.mytodo.R
 import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.databinding.FragmentHomeBinding
@@ -35,6 +36,22 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
             navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)
         }
 
+        //enable swipe to delete
+        EpoxyTouchHelper.initSwiping(binding.epoxyRecyclerView)
+            .right()
+            .withTarget(HomeEpoxyController.ItemEntityEpoxyModel::class.java)
+            .andCallbacks(object :EpoxyTouchHelper.SwipeCallbacks<HomeEpoxyController.ItemEntityEpoxyModel>(){
+                override fun onSwipeCompleted(
+                    model: HomeEpoxyController.ItemEntityEpoxyModel?,
+                    itemView: View?,
+                    position: Int,
+                    direction: Int
+                ) {
+                    val deletedItem=model?.itemEntity ?: return
+                    sharedViewModel.deleteItem(deletedItem)
+                }
+            })
+
 
 
 
@@ -50,15 +67,9 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
 
 
     }//FUN
-
-    override fun onDeleteItemEntity(itemEntity: ItemEntity) {
-       sharedViewModel.deleteItem(itemEntity)
-    }
-
     override fun onBumpPriority(itemEntity: ItemEntity) {
       //  TODO("Not yet implemented")
     }
-
 
     override fun onResume() {
         super.onResume()

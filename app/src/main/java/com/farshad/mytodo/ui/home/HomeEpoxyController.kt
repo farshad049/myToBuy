@@ -57,30 +57,17 @@ class HomeEpoxyController(
                 tvDescription.isVisible
                 tvDescription.text=itemEntity.description
             }
-            ivDelete.setOnClickListener {
-                itemEntityInterface.onDeleteItemEntity(itemEntity)
-            }
             tvPriority.setOnClickListener {
                 itemEntityInterface.onBumpPriority(itemEntity)
             }
-            tvPriority.setOnClickListener {
-                itemEntityInterface.onBumpPriority(itemEntity)
-            }
-
             val colorRes = when (itemEntity.priority) {
                 1 -> android.R.color.holo_green_dark
                 2 -> android.R.color.holo_orange_dark
                 3 -> android.R.color.holo_red_dark
                 else -> R.color.purple_700
             }
-
             tvPriority.setBackgroundColor(ContextCompat.getColor(root.context, colorRes))
-
-
-
-
         }
-
     }
     
 
