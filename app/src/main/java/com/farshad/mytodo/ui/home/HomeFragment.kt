@@ -47,6 +47,8 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
 
 
 
+
+
     }//FUN
 
     override fun onDeleteItemEntity(itemEntity: ItemEntity) {
@@ -58,25 +60,10 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    override fun onResume() {
+        super.onResume()
+        mainActivity.hideKeyboard(requireView())
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

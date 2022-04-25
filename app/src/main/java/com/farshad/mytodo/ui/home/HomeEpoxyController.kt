@@ -4,6 +4,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyController
+import com.example.mysenya.ui.epoxy.EmptyEpoxyModel
+import com.example.mysenya.ui.epoxy.LoadingEpoxyModel
 import com.farshad.mytodo.R
 import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.databinding.ItemEntityBinding
@@ -30,22 +32,22 @@ class HomeEpoxyController(
     
     override fun buildModels() {
         if (isLoading){
-            //TODO
+            LoadingEpoxyModel().id("loading_state").addTo(this)
         }
         if (itemEntity.isEmpty()){
-            //TODO
+            EmptyEpoxyModel().id("empty_state").addTo(this)
         }
         
-        itemEntity.forEachIndexed { index, itemEntity ->
-            itemEntityEpoxyModel(itemEntity,itemEntityInterface)
-                .id(index)
+        itemEntity.forEach { itemEntity ->
+            ItemEntityEpoxyModel(itemEntity,itemEntityInterface)
+                .id(itemEntity.id)
                 .addTo(this)
         }
         
         
     }
 
-    inner class itemEntityEpoxyModel(val itemEntity: ItemEntity,val itemEntityInterface:ItemEntityInterface)
+    data class ItemEntityEpoxyModel(val itemEntity: ItemEntity,val itemEntityInterface:ItemEntityInterface)
         :ViewBindingKotlinModel<ItemEntityBinding>(R.layout.item_entity){
         override fun ItemEntityBinding.bind() {
             tvTitle.text=itemEntity.title
