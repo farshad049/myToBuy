@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.farshad.mytodo.database.AppDatabase
 import com.farshad.mytodo.database.entity.ItemEntity
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ToBuyViewModel:ViewModel() {
@@ -15,19 +16,24 @@ class ToBuyViewModel:ViewModel() {
 
     //because our ToBuyRepository needs "appDatabase:AppDatabase" we should use this fun for now
     fun init(appDatabase: AppDatabase){
+        repository= ToBuyRepository(appDatabase)
         viewModelScope.launch {
-            repository= ToBuyRepository(appDatabase)
-            itemEntityLiveData.postValue(repository.getAllItems())
+            repository.getAllItems().collect {item ->
+                itemEntityLiveData.postValue(item)
+            }
         }
-
     }
 
     fun insertItem(itemEntity: ItemEntity){
-        repository.insertItem(itemEntity)
+        viewModelScope.launch {
+            repository.insertItem(itemEntity)
+        }
     }
 
     fun deleteItem(itemEntity: ItemEntity){
-        repository.deleteItem(itemEntity)
+        viewModelScope.launch {
+            repository.deleteItem(itemEntity)
+        }
     }
 
 }

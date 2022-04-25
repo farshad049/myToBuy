@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_add_24.xml" value="0.2985" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_delete_24.xml" value="0.2985" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/epoxy_model_empty.xml" value="0.33796296296296297" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/epoxy_model_loading.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/fragment_add_item_entity.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/item_entity.xml" value="0.5" />
         <entry key="..\:/Users/farshad/AndroidStudioProjects/MyToDo/app/src/main/res/layout/activity_main.xml" value="0.2203125" />
         <entry key="..\:/Users/farshad/AndroidStudioProjects/MyToDo/app/src/main/res/layout/fragment_blank.xml" value="0.2203125" />
         <entry key="..\:/Users/farshad/AndroidStudioProjects/MyToDo/app/src/main/res/layout/fragment_home.xml" value="0.2203125" />

@@ -15,5 +15,16 @@ abstract class BaseFragment:Fragment() {
     //keep data in activity level, means even if fragment destroy data will last
     val sharedViewModel:ToBuyViewModel by activityViewModels()
 
+    // region Navigation helper methods
+    protected fun navigateUp() {
+        mainActivity.navController.navigateUp()
+    }
+
+    // take the action id and sent us to destination
+    protected fun navigateViaNavGraph(actionId: Int) {
+        mainActivity.navController.navigate(actionId)
+    }
+
+
 
 }
