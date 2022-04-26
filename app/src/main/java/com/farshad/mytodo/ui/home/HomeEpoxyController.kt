@@ -1,13 +1,14 @@
 package com.farshad.mytodo.ui.home
 
+import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyController
-import com.example.mysenya.ui.epoxy.EmptyEpoxyModel
-import com.example.mysenya.ui.epoxy.LoadingEpoxyModel
 import com.farshad.mytodo.R
 import com.farshad.mytodo.database.entity.ItemEntity
+import com.farshad.mytodo.databinding.EpoxyModelEmptyBinding
+import com.farshad.mytodo.databinding.EpoxyModelLoadingBinding
 import com.farshad.mytodo.databinding.ItemEntityBinding
 import com.farshad.mytodo.ui.epoxy.ViewBindingKotlinModel
 
@@ -66,13 +67,24 @@ class HomeEpoxyController(
                 3 -> android.R.color.holo_red_dark
                 else -> R.color.purple_700
             }
-            tvPriority.setBackgroundColor(ContextCompat.getColor(root.context, colorRes))
+            val color=ContextCompat.getColor(root.context, colorRes)
+            tvPriority.setBackgroundColor(color)
+            root.setStrokeColor(ColorStateList.valueOf(color))
         }
     }
-    
 
 
 
+    class EmptyEpoxyModel: ViewBindingKotlinModel<EpoxyModelEmptyBinding>(R.layout.epoxy_model_empty){
+        override fun EpoxyModelEmptyBinding.bind() {
+        }
+    }
+
+    class LoadingEpoxyModel: ViewBindingKotlinModel<EpoxyModelLoadingBinding>(R.layout.epoxy_model_loading) {
+        override fun EpoxyModelLoadingBinding.bind(){
+            //nothing to do
+        }
+    }
 
 
 }
