@@ -69,6 +69,7 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
     }//FUN
     override fun onBumpPriority(itemEntity: ItemEntity) {
       val currentPriority=itemEntity.priority
+        //in order to change the value of priority
       var newPriority=currentPriority +1
       if (newPriority >3){
           newPriority = 1

@@ -10,6 +10,7 @@ import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.databinding.EpoxyModelEmptyBinding
 import com.farshad.mytodo.databinding.EpoxyModelLoadingBinding
 import com.farshad.mytodo.databinding.ItemEntityBinding
+import com.farshad.mytodo.databinding.ModelHeaderItemBinding
 import com.farshad.mytodo.ui.epoxy.ViewBindingKotlinModel
 
 class HomeEpoxyController(
@@ -35,17 +36,20 @@ class HomeEpoxyController(
         if (isLoading){
             LoadingEpoxyModel().id("loading_state").addTo(this)
         }
+
         if (itemEntity.isEmpty()){
             EmptyEpoxyModel().id("empty_state").addTo(this)
         }
-        
-        itemEntity.forEach { itemEntity ->
-            ItemEntityEpoxyModel(itemEntity,itemEntityInterface)
-                .id(itemEntity.id)
-                .addTo(this)
+        //in order not to set header for every item, but just for every priority
+        var currentPriority:Int=-1
+        itemEntity.sortedByDescending { it.priority }.forEach { itemEntity ->
+            if (itemEntity.priority != currentPriority){
+                currentPriority = itemEntity.priority
+                val text=takePriorityText(currentPriority)
+                ItemHeader(text).id(text).addTo(this)
+            }
+            ItemEntityEpoxyModel(itemEntity,itemEntityInterface).id(itemEntity.id).addTo(this)
         }
-        
-        
     }
 
     data class ItemEntityEpoxyModel(val itemEntity: ItemEntity,val itemEntityInterface:ItemEntityInterface)
@@ -70,6 +74,22 @@ class HomeEpoxyController(
             val color=ContextCompat.getColor(root.context, colorRes)
             tvPriority.setBackgroundColor(color)
             root.setStrokeColor(ColorStateList.valueOf(color))
+        }
+    }
+
+    data class ItemHeader(val headerText:String)
+        :ViewBindingKotlinModel<ModelHeaderItemBinding>(R.layout.model_header_item){
+        override fun ModelHeaderItemBinding.bind() {
+            tvHeader.text=headerText
+        }
+
+    }
+
+    private fun takePriorityText(priority:Int):String{
+        return when(priority){
+            1 -> "low"
+            2 -> "medium"
+            else -> "High"
         }
     }
 
