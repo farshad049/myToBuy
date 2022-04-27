@@ -73,6 +73,7 @@ class HomeEpoxyController(
             }
             val color=ContextCompat.getColor(root.context, colorRes)
             tvPriority.setBackgroundColor(color)
+            //set stroke color for items
             root.setStrokeColor(ColorStateList.valueOf(color))
         }
     }
@@ -85,6 +86,9 @@ class HomeEpoxyController(
 
     }
 
+
+
+
     private fun takePriorityText(priority:Int):String{
         return when(priority){
             1 -> "low"
@@ -92,8 +96,6 @@ class HomeEpoxyController(
             else -> "High"
         }
     }
-
-
 
     class EmptyEpoxyModel: ViewBindingKotlinModel<EpoxyModelEmptyBinding>(R.layout.epoxy_model_empty){
         override fun EpoxyModelEmptyBinding.bind() {
