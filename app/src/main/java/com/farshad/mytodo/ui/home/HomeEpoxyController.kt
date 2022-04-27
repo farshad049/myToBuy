@@ -77,7 +77,7 @@ class HomeEpoxyController(
             root.setStrokeColor(ColorStateList.valueOf(color))
 
             root.setOnClickListener {
-                itemEntityInterface.onItemClick(itemEntity)
+                itemEntityInterface.onItemClick(itemEntity.id)
             }
         }
     }

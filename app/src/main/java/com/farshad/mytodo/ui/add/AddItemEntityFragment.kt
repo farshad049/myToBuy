@@ -16,6 +16,8 @@ class AddItemEntityFragment:BaseFragment() {
     private var _binding: FragmentAddItemEntityBinding? = null
     private val binding get() = _binding!!
 
+    private val selectedItem=sharedViewModel.selectedAttractionLiveData.value
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAddItemEntityBinding.inflate(inflater, container, false)
         return binding.root
@@ -27,6 +29,21 @@ class AddItemEntityFragment:BaseFragment() {
         binding.saveButton.setOnClickListener {
             saveEntityToDatabase()
         }
+
+//        if (selectedItem != null){
+//            sharedViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner){itemEntity ->
+//                binding.etEditTitle.setText(selectedItem.title)
+//                binding.etEditTitle.setSelection(itemEntity.title.length)
+//                binding.etEditDescription.setText(itemEntity.description)
+//                when (itemEntity.priority) {
+//                    1 -> binding.radioGroup.check(R.id.radioButtonLow)
+//                    2 -> binding.radioGroup.check(R.id.radioButtonMedium)
+//                    else -> binding.radioGroup.check(R.id.radioButtonHigh)
+//                }
+//                binding.saveButton.text = "Update"
+//                mainActivity.supportActionBar?.title = "Update item"
+//            }
+//        }
 
 
 
@@ -64,16 +81,27 @@ class AddItemEntityFragment:BaseFragment() {
             else -> 0
         }
 
-        sharedViewModel.insertItem(
-            ItemEntity(
-                id = UUID.randomUUID().toString(),
+        if (selectedItem != null){
+            val itemEntity = selectedItem!!.copy(
                 title = itemTitle,
                 description = itemDescription,
-                priority = itemPriority,
-                createdAt = System.currentTimeMillis(),
-                category = ""//TODO
+                priority = itemPriority
             )
-        )
+            sharedViewModel.updateItem(itemEntity)
+        }else{
+            sharedViewModel.insertItem(
+                ItemEntity(
+                    id = UUID.randomUUID().toString(),
+                    title = itemTitle,
+                    description = itemDescription,
+                    priority = itemPriority,
+                    createdAt = System.currentTimeMillis(),
+                    category = ""//TODO
+                )
+            )
+        }
+
+
     }
 
 

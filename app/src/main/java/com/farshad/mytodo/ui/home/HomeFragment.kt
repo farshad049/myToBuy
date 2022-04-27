@@ -11,6 +11,7 @@ import com.farshad.mytodo.R
 import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.databinding.FragmentHomeBinding
 import com.farshad.mytodo.ui.BaseFragment
+import com.farshad.mytodo.ui.MainActivity
 
 class HomeFragment:BaseFragment(),ItemEntityInterface {
 
@@ -66,6 +67,7 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
 
 
 
+
     }//FUN
     override fun onBumpPriority(itemEntity: ItemEntity) {
       val currentPriority=itemEntity.priority
@@ -78,8 +80,11 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         sharedViewModel.updateItem(updatedItem)
     }
 
-    override fun onItemClick(itemEntity: ItemEntity) {
-            navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)
+
+
+    override fun onItemClick(itemId: String) {
+        sharedViewModel.onAttractionSelected(itemId)
+        navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)
     }
 
     override fun onResume() {
