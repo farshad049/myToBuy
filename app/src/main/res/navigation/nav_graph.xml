@@ -19,5 +19,12 @@
         android:id="@+id/addItemEntityFragment"
         android:name="com.farshad.mytodo.ui.add.AddItemEntityFragment"
         android:label="Add"
-        tools:layout="@layout/fragment_add_item_entity"/>
+        tools:layout="@layout/fragment_add_item_entity">
+        <argument
+            android:name="selectedItemEntityId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true"
+            />
+    </fragment>
 </navigation>

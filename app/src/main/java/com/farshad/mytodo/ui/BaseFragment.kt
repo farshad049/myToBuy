@@ -2,6 +2,7 @@ package com.farshad.mytodo.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import com.farshad.mytodo.arch.ToBuyViewModel
 import com.farshad.mytodo.database.AppDatabase
 
@@ -25,6 +26,8 @@ abstract class BaseFragment:Fragment() {
         mainActivity.navController.navigate(actionId)
     }
 
-
+    protected fun navigateViaNavGraphSafeArg(navDirections: NavDirections) {
+        mainActivity.navController.navigate(navDirections)
+    }
 
 }

@@ -42,6 +42,8 @@ class ToBuyViewModel:ViewModel() {
     fun updateItem(itemEntity: ItemEntity){
         viewModelScope.launch {
             repository.updateItem(itemEntity)
+            //in order to be able observe happens and  "if (isInEditMode)" be runs
+            transactionCompleteLiveData.postValue(true)
         }
     }
 
