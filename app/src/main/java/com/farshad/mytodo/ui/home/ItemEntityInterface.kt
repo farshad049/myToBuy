@@ -4,4 +4,5 @@ import com.farshad.mytodo.database.entity.ItemEntity
 
 interface ItemEntityInterface {
     fun onBumpPriority(itemEntity: ItemEntity)
+    fun onItemClick(itemEntity: ItemEntity)
 }

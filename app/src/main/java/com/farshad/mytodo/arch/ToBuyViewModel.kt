@@ -16,6 +16,8 @@ class ToBuyViewModel:ViewModel() {
 
     val transactionCompleteLiveData=MutableLiveData<Boolean>()
 
+    val selectedAttractionLiveData=MutableLiveData<ItemEntity>()
+
     //because our ToBuyRepository needs "appDatabase:AppDatabase" we should use this fun for now
     fun init(appDatabase: AppDatabase){
         repository= ToBuyRepository(appDatabase)
@@ -43,6 +45,13 @@ class ToBuyViewModel:ViewModel() {
         viewModelScope.launch {
             repository.updateItem(itemEntity)
         }
+    }
+
+    fun onAttractionSelected(itemEntityId :String){
+        val itemEntity=itemEntityLiveData.value?.find {
+            it.id==itemEntityId
+        } ?: return
+        selectedAttractionLiveData.postValue(itemEntity)
     }
 
 }

@@ -75,6 +75,10 @@ class HomeEpoxyController(
             tvPriority.setBackgroundColor(color)
             //set stroke color for items
             root.setStrokeColor(ColorStateList.valueOf(color))
+
+            root.setOnClickListener {
+                itemEntityInterface.onItemClick(itemEntity)
+            }
         }
     }
 

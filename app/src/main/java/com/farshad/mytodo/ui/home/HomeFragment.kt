@@ -78,6 +78,10 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         sharedViewModel.updateItem(updatedItem)
     }
 
+    override fun onItemClick(itemEntity: ItemEntity) {
+            navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)
+    }
+
     override fun onResume() {
         super.onResume()
         mainActivity.hideKeyboard(requireView())

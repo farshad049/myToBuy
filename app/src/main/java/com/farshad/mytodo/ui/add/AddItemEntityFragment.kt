@@ -28,6 +28,8 @@ class AddItemEntityFragment:BaseFragment() {
             saveEntityToDatabase()
         }
 
+
+
         sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
             if (complete){
                 Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
