@@ -39,43 +39,74 @@ class AddItemEntityFragment:BaseFragment() {
             saveEntityToDatabase()
         }
 
-        //check if data has been successfully saved then reset the form
-        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
-            if (complete){
-                //after click on save button ,run this so it exits this fragment
-                if (isInEditMode){
-                    navigateUp()
-                    return@observe
-                }
-                Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
-                binding.etEditTitle.text?.clear()
-                //set mouse pointer to this field
-                binding.etEditDescription.requestFocus()
-                mainActivity.showKeyboard()
-                binding.etEditDescription.text?.clear()
-                binding.radioGroup.check(R.id.radioButtonLow)
-            }
-            // Show keyboard and default select our Title EditText when we get into this page
-            mainActivity.showKeyboard()
-            binding.etEditTitle.requestFocus()
-        }
-
-        //in update mode check if selectedItemEntity in not empty the do this
-        // .let means like if(selectedItemEntity != null)
-        selectedItemEntity?.let { itemEntity ->
+        //handle update mode or insert mode
+        if (selectedItemEntity != null){
             isInEditMode=true
-            binding.etEditTitle.setText(itemEntity.title)
+            binding.etEditTitle.setText(selectedItemEntity!!.title)
             //set mouse pointer at the end of text just fill more than we are in edit mode
-            binding.etEditTitle.setSelection(itemEntity.title.length)
-            binding.etEditDescription.setText(itemEntity.description)
-            when(itemEntity.priority){
+            binding.etEditTitle.setSelection(selectedItemEntity!!.title.length)
+            binding.etEditDescription.setText(selectedItemEntity!!.description)
+            when(selectedItemEntity!!.priority){
                 1 -> binding.radioGroup.check(R.id.radioButtonLow)
                 2 -> binding.radioGroup.check(R.id.radioButtonMedium)
                 else -> binding.radioGroup.check(R.id.radioButtonHigh)
             }
             binding.saveButton.text="update"
             mainActivity.supportActionBar?.title="update item"
+        }else{
+            sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
+                if (complete){
+                    Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
+                    binding.etEditTitle.text?.clear()
+                    //set mouse pointer to this field
+                    binding.etEditDescription.requestFocus()
+                    mainActivity.showKeyboard()
+                    binding.etEditDescription.text?.clear()
+                    binding.radioGroup.check(R.id.radioButtonLow)
+                }
+                // Show keyboard and default select our Title EditText when we get into this page
+                mainActivity.showKeyboard()
+                binding.etEditTitle.requestFocus()
+            }
         }
+
+        //check if data has been successfully saved then reset the form
+//        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
+//            if (complete){
+//                //after click on save button ,run this so it exits this fragment
+//                if (isInEditMode){
+//                    navigateUp()
+//                    return@observe
+//                }
+//                Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
+//                binding.etEditTitle.text?.clear()
+//                //set mouse pointer to this field
+//                binding.etEditDescription.requestFocus()
+//                mainActivity.showKeyboard()
+//                binding.etEditDescription.text?.clear()
+//                binding.radioGroup.check(R.id.radioButtonLow)
+//            }
+//            // Show keyboard and default select our Title EditText when we get into this page
+//            mainActivity.showKeyboard()
+//            binding.etEditTitle.requestFocus()
+//        }
+
+        //in update mode check if selectedItemEntity in not empty the do this
+        // .let means like if(selectedItemEntity != null)
+//        selectedItemEntity?.let { itemEntity ->
+//            isInEditMode=true
+//            binding.etEditTitle.setText(itemEntity.title)
+//            //set mouse pointer at the end of text just fill more than we are in edit mode
+//            binding.etEditTitle.setSelection(itemEntity.title.length)
+//            binding.etEditDescription.setText(itemEntity.description)
+//            when(itemEntity.priority){
+//                1 -> binding.radioGroup.check(R.id.radioButtonLow)
+//                2 -> binding.radioGroup.check(R.id.radioButtonMedium)
+//                else -> binding.radioGroup.check(R.id.radioButtonHigh)
+//            }
+//            binding.saveButton.text="update"
+//            mainActivity.supportActionBar?.title="update item"
+//        }
 
     }//FUN
 
@@ -96,39 +127,29 @@ class AddItemEntityFragment:BaseFragment() {
             else -> 0
         }
 
-        if (isInEditMode){
+        if (selectedItemEntity != null){
             val itemEntity=selectedItemEntity!!.copy(
                 title =itemTitle,
                 description = itemDescription,
                 priority = itemPriority
             )
             sharedViewModel.updateItem(itemEntity)
-            //this line says it is not necessary to continue and run function below
-            return
-        }
-
-        sharedViewModel.insertItem(
-            ItemEntity(
-                id = UUID.randomUUID().toString(),
-                title = itemTitle,
-                description = itemDescription,
-                priority = itemPriority,
-                createdAt = System.currentTimeMillis(),
-                category = ""//TODO
+            //came back to home page
+            navigateUp()
+        }else{
+            sharedViewModel.insertItem(
+                ItemEntity(
+                    id = UUID.randomUUID().toString(),
+                    title = itemTitle,
+                    description = itemDescription,
+                    priority = itemPriority,
+                    createdAt = System.currentTimeMillis(),
+                    category = ""//TODO
+                )
             )
-        )
+        }
     }
 
-
-
-
-
-    override fun onPause() {
-        //transactionCompleteLiveData is stored in activity so when we insert a data and set in to tru it will stands true,even when we leave the page
-        //because of that we set it to false in onPause in order to cover thi issue
-        sharedViewModel.transactionCompleteLiveData.postValue(false)
-        super.onPause()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
