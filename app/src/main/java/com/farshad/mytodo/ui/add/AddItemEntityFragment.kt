@@ -5,6 +5,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.farshad.mytodo.R
@@ -39,6 +40,26 @@ class AddItemEntityFragment:BaseFragment() {
         binding.saveButton.setOnClickListener {
             saveEntityToDatabase()
         }
+
+        binding.seekBar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val currentText=binding.etEditTitle.text.toString().trim()
+                if (currentText.isEmpty()){
+                    return
+                }
+                val newText="$currentText ($progress)"
+                binding.etEditTitle.setText(newText)
+                binding.etEditTitle.setSelection(newText.length) //set mouse pointer at the end
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                //TODO("Not yet implemented")
+
+
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                //TODO("Not yet implemented")
+            }
+        })
 
 
         //handle update mode or insert mode
