@@ -47,9 +47,18 @@ class AddItemEntityFragment:BaseFragment() {
                 if (currentText.isEmpty()){
                     return
                 }
-                val newText="$currentText ($progress)"
-                binding.etEditTitle.setText(newText)
-                binding.etEditTitle.setSelection(newText.length) //set mouse pointer at the end
+                //return -1 if doesn't found "[" means when doesn't have quantity
+                val startIndex = currentText.indexOf("[") - 1
+                //if it has quantity then...
+                val newText = if (startIndex > 0) {
+                    "${currentText.substring(0, startIndex)} [$progress]"
+                } else {
+                    "$currentText [$progress]"
+                }
+                //if it has quantity 1 ,remove the quantity
+                val sanitizedText = newText.replace(" [1]", "")
+                binding.etEditTitle.setText(sanitizedText)
+                binding.etEditTitle.setSelection(sanitizedText.length)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 //TODO("Not yet implemented")
@@ -76,6 +85,16 @@ class AddItemEntityFragment:BaseFragment() {
             }
             binding.saveButton.text="update"
             mainActivity.supportActionBar?.title="update item"
+            // if title contained quantity take it pas set the seekBar
+            if (selectedItemEntity!!.title.contains("[")){
+                val startIndex=selectedItemEntity!!.title.indexOf("[")
+                val endIndex=selectedItemEntity!!.title.indexOf("]")
+                try {
+                    val progress=selectedItemEntity!!.title.substring(startIndex,endIndex).toInt()
+                    binding.seekBar.progress=progress
+                }catch (e:Exception){//Whoops}
+
+            }
         }else{
             sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
                 if (complete){
