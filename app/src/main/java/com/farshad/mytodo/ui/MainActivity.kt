@@ -6,6 +6,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -38,16 +40,24 @@ class MainActivity : AppCompatActivity() {
 
         //enable the action bar
         appBarConfiguration=
-            //set up this fragment to be as top level fragments in order to don't show toolbar back button in this fragment
+            //set up this fragments to be as top level fragments in order to don't show toolbar back button in this fragment
             AppBarConfiguration(setOf(R.id.homeFragment,R.id.profileFragment))
         //set up fragment title in toolbar
         setupActionBarWithNavController(navController,appBarConfiguration)
 
         // Setup bottom nav bar
-        NavigationUI.setupWithNavController(
-            findViewById<BottomNavigationView>(R.id.bottomNavigation),
-            navHostFragment.navController
-        )
+        val navBar=findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        NavigationUI.setupWithNavController(navBar, navController)
+
+        //set up our nav bar to be show/hide based on destination
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            //if we were not in a top level fragment don't show the nav bar
+            if (appBarConfiguration.topLevelDestinations.contains(destination.id)){
+                navBar.isVisible=true
+            }else{
+                navBar.isGone=true
+            }
+        }
 
 
 
