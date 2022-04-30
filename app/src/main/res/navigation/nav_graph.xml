@@ -16,6 +16,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.farshad.mytodo.ui.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+
+    <fragment
         android:id="@+id/addItemEntityFragment"
         android:name="com.farshad.mytodo.ui.add.AddItemEntityFragment"
         android:label="Add"
@@ -27,4 +33,5 @@
             app:nullable="true"
             />
     </fragment>
+
 </navigation>

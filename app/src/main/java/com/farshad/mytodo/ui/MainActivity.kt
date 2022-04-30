@@ -1,23 +1,22 @@
 package com.farshad.mytodo.ui
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.farshad.mytodo.R
 import com.farshad.mytodo.arch.ToBuyViewModel
 import com.farshad.mytodo.database.AppDatabase
 import com.farshad.mytodo.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
@@ -28,17 +27,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        //mainActivity initialize the data for us as we enter the application
+        val viewModel:ToBuyViewModel by viewModels()
+        viewModel.init(AppDatabase.getDatabase(this))
+
         //enable the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         //enable the action bar
-        appBarConfiguration= AppBarConfiguration(navController.graph)
+        appBarConfiguration=
+            //set up this fragment to be as top level fragments in order to don't show toolbar back button in this fragment
+            AppBarConfiguration(setOf(R.id.homeFragment,R.id.profileFragment))
+        //set up fragment title in toolbar
         setupActionBarWithNavController(navController,appBarConfiguration)
 
-        //mainActivity initialize the data for us as we enter the application
-        val viewModel:ToBuyViewModel by viewModels()
-        viewModel.init(AppDatabase.getDatabase(this))
+        // Setup bottom nav bar
+        NavigationUI.setupWithNavController(
+            findViewById<BottomNavigationView>(R.id.bottomNavigation),
+            navHostFragment.navController
+        )
+
+
 
     }//FUN
 

@@ -1,6 +1,7 @@
 package com.farshad.mytodo.ui.add
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class AddItemEntityFragment:BaseFragment() {
         binding.saveButton.setOnClickListener {
             saveEntityToDatabase()
         }
+
 
         //handle update mode or insert mode
         if (selectedItemEntity != null){
