@@ -25,7 +25,7 @@ class AddItemEntityFragment:BaseFragment() {
             it.id ==safeArgs.selectedItemEntityId
         }
     }
-    private var isInEditMode:Boolean=false
+   // private var isInEditMode:Boolean=false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAddItemEntityBinding.inflate(inflater, container, false)
@@ -41,13 +41,13 @@ class AddItemEntityFragment:BaseFragment() {
             saveEntityToDatabase()
         }
 
-        binding.seekBar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val currentText=binding.etEditTitle.text.toString().trim()
-                if (currentText.isEmpty()){
+                val currentText = binding.etEditTitle.text.toString().trim()
+                if (currentText.isEmpty()) {
                     return
                 }
-                //return -1 if doesn't found "[" means when doesn't have quantity
+                //return -1 if doesn't found "[" means doesn't have quantity
                 val startIndex = currentText.indexOf("[") - 1
                 //if it has quantity then...
                 val newText = if (startIndex > 0) {
@@ -60,11 +60,13 @@ class AddItemEntityFragment:BaseFragment() {
                 binding.etEditTitle.setText(sanitizedText)
                 binding.etEditTitle.setSelection(sanitizedText.length)
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 //TODO("Not yet implemented")
 
 
             }
+
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 //TODO("Not yet implemented")
             }
@@ -72,47 +74,49 @@ class AddItemEntityFragment:BaseFragment() {
 
 
         //handle update mode or insert mode
-        if (selectedItemEntity != null){
-            isInEditMode=true
+        if (selectedItemEntity != null) {
+         //   isInEditMode = true
             binding.etEditTitle.setText(selectedItemEntity!!.title)
             //set mouse pointer at the end of text just fill more than we are in edit mode
             binding.etEditTitle.setSelection(selectedItemEntity!!.title.length)
             binding.etEditDescription.setText(selectedItemEntity!!.description)
-            when(selectedItemEntity!!.priority){
+            when (selectedItemEntity!!.priority) {
                 1 -> binding.radioGroup.check(R.id.radioButtonLow)
                 2 -> binding.radioGroup.check(R.id.radioButtonMedium)
                 else -> binding.radioGroup.check(R.id.radioButtonHigh)
             }
-            binding.saveButton.text="update"
-            mainActivity.supportActionBar?.title="update item"
+            binding.saveButton.text = "update"
+            mainActivity.supportActionBar?.title = "update item"
             // if title contained quantity take it pas set the seekBar
-            if (selectedItemEntity!!.title.contains("[")){
-                val startIndex=selectedItemEntity!!.title.indexOf("[")
-                val endIndex=selectedItemEntity!!.title.indexOf("]")
+            if (selectedItemEntity!!.title.contains("[")) {
+                val startIndex = selectedItemEntity!!.title.indexOf("[")
+                val endIndex = selectedItemEntity!!.title.indexOf("]")
                 try {
-                    val progress=selectedItemEntity!!.title.substring(startIndex,endIndex).toInt()
-                    binding.seekBar.progress=progress
-                }catch (e:Exception){//Whoops}
-
-            }
-        }else{
-            sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
-                if (complete){
-                    Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
-                    binding.etEditTitle.text?.clear()
-                    //set mouse pointer to this field
-                    binding.etEditDescription.requestFocus()
-                    mainActivity.showKeyboard()
-                    binding.etEditDescription.text?.clear()
-                    binding.radioGroup.check(R.id.radioButtonLow)
+                    val progress =
+                        selectedItemEntity!!.title.substring(startIndex, endIndex).toInt()
+                    binding.seekBar.progress = progress
+                } catch (e: Exception) {
+                    //Whoops
                 }
-                // Show keyboard and default select our Title EditText when we get into this page
-                mainActivity.showKeyboard()
-                binding.etEditTitle.requestFocus()
             }
-        }
+//            else {
+//                sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner) { complete ->
+//                    if (complete) {
+//
+//                        binding.etEditTitle.text?.clear()
+//                        //set mouse pointer to this field
+//                        binding.etEditDescription.requestFocus()
+//                        mainActivity.showKeyboard()
+//                        binding.etEditDescription.text?.clear()
+//                        binding.radioGroup.check(R.id.radioButtonLow)
+//                    }
+//                    // Show keyboard and default select our Title EditText when we get into this page
+//                    mainActivity.showKeyboard()
+//                    binding.etEditTitle.requestFocus()
+//                }
+//            }
 
-        //check if data has been successfully saved then reset the form
+            //check if data has been successfully saved then reset the form
 //        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
 //            if (complete){
 //                //after click on save button ,run this so it exits this fragment
@@ -133,8 +137,8 @@ class AddItemEntityFragment:BaseFragment() {
 //            binding.etEditTitle.requestFocus()
 //        }
 
-        //in update mode check if selectedItemEntity in not empty the do this
-        // .let means like if(selectedItemEntity != null)
+            //in update mode check if selectedItemEntity in not empty the do this
+            // .let means like if(selectedItemEntity != null)
 //        selectedItemEntity?.let { itemEntity ->
 //            isInEditMode=true
 //            binding.etEditTitle.setText(itemEntity.title)
@@ -150,47 +154,58 @@ class AddItemEntityFragment:BaseFragment() {
 //            mainActivity.supportActionBar?.title="update item"
 //        }
 
-    }//FUN
+        }//FUN
+    }
 
 
-    private fun saveEntityToDatabase(){
-        val itemTitle=binding.etEditTitle.text.toString().trim()
-        if (itemTitle.isEmpty()){
-            binding.etTitle.error="* Required Field"
-            return
-        }else{
-            binding.etTitle.error=null
-        }
-        val itemDescription=binding.etEditDescription.text.toString().trim()
-        val itemPriority =when(binding.radioGroup.checkedRadioButtonId){
-            R.id.radioButtonLow -> 1
-            R.id.radioButtonMedium -> 2
-            R.id.radioButtonHigh -> 3
-            else -> 0
-        }
+        private fun saveEntityToDatabase() {
+            val itemTitle = binding.etEditTitle.text.toString().trim()
+            if (itemTitle.isEmpty()) {
+                binding.etTitle.error = "* Required Field"
+                return
+            } else {
+                binding.etTitle.error = null
+            }
+            val itemDescription = binding.etEditDescription.text.toString().trim()
+            val itemPriority = when (binding.radioGroup.checkedRadioButtonId) {
+                R.id.radioButtonLow -> 1
+                R.id.radioButtonMedium -> 2
+                R.id.radioButtonHigh -> 3
+                else -> 0
+            }
 
-        if (selectedItemEntity != null){
-            val itemEntity=selectedItemEntity!!.copy(
-                title =itemTitle,
-                description = itemDescription,
-                priority = itemPriority
-            )
-            sharedViewModel.updateItem(itemEntity)
-            //came back to home page
-            navigateUp()
-        }else{
-            sharedViewModel.insertItem(
-                ItemEntity(
-                    id = UUID.randomUUID().toString(),
+            if (selectedItemEntity != null) {
+                val itemEntity = selectedItemEntity!!.copy(
                     title = itemTitle,
                     description = itemDescription,
-                    priority = itemPriority,
-                    createdAt = System.currentTimeMillis(),
-                    category = ""//TODO
+                    priority = itemPriority
                 )
-            )
+                sharedViewModel.updateItem(itemEntity)
+                //came back to home page
+                navigateUp()
+            } else {
+                sharedViewModel.insertItem(
+                    ItemEntity(
+                        id = UUID.randomUUID().toString(),
+                        title = itemTitle,
+                        description = itemDescription,
+                        priority = itemPriority,
+                        createdAt = System.currentTimeMillis(),
+                        category = ""//TODO
+                    )
+                )
+                Toast.makeText(requireContext(), "item saved!", Toast.LENGTH_SHORT).show()
+                binding.etEditTitle.text?.clear()
+                //set mouse pointer to this field
+                binding.etEditDescription.requestFocus()
+                mainActivity.showKeyboard()
+                binding.etEditDescription.text?.clear()
+                binding.radioGroup.check(R.id.radioButtonLow)
+                // Show keyboard and default select our Title EditText when we get into this page
+                mainActivity.showKeyboard()
+                binding.etEditTitle.requestFocus()
+            }
         }
-    }
 
 
     override fun onDestroyView() {

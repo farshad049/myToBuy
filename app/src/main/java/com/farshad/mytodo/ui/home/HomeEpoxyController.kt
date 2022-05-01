@@ -6,6 +6,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyController
 import com.farshad.mytodo.R
+import com.farshad.mytodo.addHeaderModel
 import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.databinding.EpoxyModelEmptyBinding
 import com.farshad.mytodo.databinding.EpoxyModelLoadingBinding
@@ -46,7 +47,10 @@ class HomeEpoxyController(
             if (itemEntity.priority != currentPriority){
                 currentPriority = itemEntity.priority
                 val text=takePriorityText(currentPriority)
-                ItemHeader(text).id(text).addTo(this)
+                addHeaderModel(text)
+
+
+
             }
             ItemEntityEpoxyModel(itemEntity,itemEntityInterface).id(itemEntity.id).addTo(this)
         }
@@ -82,13 +86,7 @@ class HomeEpoxyController(
         }
     }
 
-    data class ItemHeader(val headerText:String)
-        :ViewBindingKotlinModel<ModelHeaderItemBinding>(R.layout.model_header_item){
-        override fun ModelHeaderItemBinding.bind() {
-            tvHeader.text=headerText
-        }
 
-    }
 
 
 
