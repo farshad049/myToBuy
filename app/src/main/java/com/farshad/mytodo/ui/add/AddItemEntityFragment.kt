@@ -18,6 +18,8 @@ class AddItemEntityFragment:BaseFragment() {
 
     private val selectedItem=sharedViewModel.selectedAttractionLiveData.value
 
+    private var isInEditMode: Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAddItemEntityBinding.inflate(inflater, container, false)
         return binding.root
@@ -30,25 +32,13 @@ class AddItemEntityFragment:BaseFragment() {
             saveEntityToDatabase()
         }
 
-//        if (selectedItem != null){
-//            sharedViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner){itemEntity ->
-//                binding.etEditTitle.setText(selectedItem.title)
-//                binding.etEditTitle.setSelection(itemEntity.title.length)
-//                binding.etEditDescription.setText(itemEntity.description)
-//                when (itemEntity.priority) {
-//                    1 -> binding.radioGroup.check(R.id.radioButtonLow)
-//                    2 -> binding.radioGroup.check(R.id.radioButtonMedium)
-//                    else -> binding.radioGroup.check(R.id.radioButtonHigh)
-//                }
-//                binding.saveButton.text = "Update"
-//                mainActivity.supportActionBar?.title = "Update item"
-//            }
-//        }
-
-
 
         sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
             if (complete){
+                if (isInEditMode) {
+                    navigateUp()
+                    return@observe
+                }
                 Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
                 binding.etEditTitle.text?.clear()
                 //set mouse pointer to this field
@@ -60,6 +50,22 @@ class AddItemEntityFragment:BaseFragment() {
             // Show keyboard and default select our Title EditText when we get into this page
             mainActivity.showKeyboard()
             binding.etEditTitle.requestFocus()
+        }
+
+        if (selectedItem != null){
+            isInEditMode = true
+            sharedViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner){itemEntity ->
+                binding.etEditTitle.setText(selectedItem.title)
+                binding.etEditTitle.setSelection(itemEntity.title.length)
+                binding.etEditDescription.setText(itemEntity.description)
+                when (itemEntity.priority) {
+                    1 -> binding.radioGroup.check(R.id.radioButtonLow)
+                    2 -> binding.radioGroup.check(R.id.radioButtonMedium)
+                    else -> binding.radioGroup.check(R.id.radioButtonHigh)
+                }
+                binding.saveButton.text = "Update"
+                mainActivity.supportActionBar?.title = "Update item"
+            }
         }
 
     }//FUN
@@ -88,6 +94,7 @@ class AddItemEntityFragment:BaseFragment() {
                 priority = itemPriority
             )
             sharedViewModel.updateItem(itemEntity)
+            return
         }else{
             sharedViewModel.insertItem(
                 ItemEntity(
