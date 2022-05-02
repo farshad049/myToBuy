@@ -9,5 +9,8 @@ data class ItemHeader(val headerText:String)
     override fun ModelHeaderItemBinding.bind() {
         tvHeader.text=headerText
     }
-
+    //let EmptyButton take entire screen in case we have more than one span
+    override fun getSpanSize(totalSpanCount: Int, position: Int, itemCount: Int): Int {
+        return totalSpanCount
+    }
 }

@@ -2,11 +2,13 @@ package com.farshad.mytodo.arch
 
 import android.content.ClipData
 import com.farshad.mytodo.database.AppDatabase
+import com.farshad.mytodo.database.entity.CategoryEntity
 import com.farshad.mytodo.database.entity.ItemEntity
 import kotlinx.coroutines.flow.Flow
 
 class ToBuyRepository(private val appDatabase:AppDatabase) {
 
+    //region itemEntity
     suspend fun insertItem(itemEntity: ItemEntity){
         appDatabase.itemEntityDao().insert(itemEntity)
     }
@@ -22,4 +24,23 @@ class ToBuyRepository(private val appDatabase:AppDatabase) {
      fun getAllItems():Flow<List<ItemEntity>>{
         return appDatabase.itemEntityDao().getAllItemEntities()
     }
+    //endregion itemEntity
+
+    //region categoryEntity
+    suspend fun insertCategory(categoryEntity: CategoryEntity){
+        appDatabase.categoryEntityDao().insert(categoryEntity)
+    }
+
+    suspend fun deleteCategory(categoryEntity: CategoryEntity){
+        appDatabase.categoryEntityDao().delete(categoryEntity)
+    }
+
+    suspend fun updateCategory(categoryEntity: CategoryEntity){
+        appDatabase.categoryEntityDao().update(categoryEntity)
+    }
+
+    fun getAllCategories():Flow<List<CategoryEntity>>{
+        return appDatabase.categoryEntityDao().getAllCategoryEntities()
+    }
+    //endregion categoryEntity
 }

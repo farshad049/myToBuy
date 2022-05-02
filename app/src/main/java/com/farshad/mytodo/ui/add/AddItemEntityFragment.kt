@@ -25,7 +25,7 @@ class AddItemEntityFragment:BaseFragment() {
             it.id ==safeArgs.selectedItemEntityId
         }
     }
-   // private var isInEditMode:Boolean=false
+    private var isInEditMode:Boolean=false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentAddItemEntityBinding.inflate(inflater, container, false)
@@ -74,6 +74,7 @@ class AddItemEntityFragment:BaseFragment() {
 
 
         //handle update mode or insert mode
+
         if (selectedItemEntity != null) {
          //   isInEditMode = true
             binding.etEditTitle.setText(selectedItemEntity!!.title)
@@ -99,22 +100,6 @@ class AddItemEntityFragment:BaseFragment() {
                     //Whoops
                 }
             }
-//            else {
-//                sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner) { complete ->
-//                    if (complete) {
-//
-//                        binding.etEditTitle.text?.clear()
-//                        //set mouse pointer to this field
-//                        binding.etEditDescription.requestFocus()
-//                        mainActivity.showKeyboard()
-//                        binding.etEditDescription.text?.clear()
-//                        binding.radioGroup.check(R.id.radioButtonLow)
-//                    }
-//                    // Show keyboard and default select our Title EditText when we get into this page
-//                    mainActivity.showKeyboard()
-//                    binding.etEditTitle.requestFocus()
-//                }
-//            }
 
             //check if data has been successfully saved then reset the form
 //        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
@@ -202,7 +187,6 @@ class AddItemEntityFragment:BaseFragment() {
                 binding.etEditDescription.text?.clear()
                 binding.radioGroup.check(R.id.radioButtonLow)
                 // Show keyboard and default select our Title EditText when we get into this page
-                mainActivity.showKeyboard()
                 binding.etEditTitle.requestFocus()
             }
         }
