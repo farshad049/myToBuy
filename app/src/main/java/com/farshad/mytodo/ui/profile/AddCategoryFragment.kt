@@ -25,13 +25,21 @@ class AddCategoryFragment:BaseFragment() {
         binding.etEditTitle.requestFocus()
         mainActivity.showKeyboard()
         binding.saveButton.setOnClickListener {
-            saveCategory()
+            saveCategoryToDatabase()
         }
+
+        //if save has been successful back to previous fragment
+        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){event->
+            event.getContent()?.let {
+                navigateUp()
+            }
+        }
+
 
 
     }//FUN
 
-    private fun saveCategory(){
+    private fun saveCategoryToDatabase(){
         val categoryTitle=binding.etEditTitle.text.toString().trim()
         if (categoryTitle.isEmpty()) {
             binding.etTitle.error = "* Require Field"
@@ -43,7 +51,6 @@ class AddCategoryFragment:BaseFragment() {
                 name = categoryTitle
             )
         )
-        navigateUp()
     }
 
 

@@ -73,22 +73,70 @@ class AddItemEntityFragment:BaseFragment() {
         })
 
 
-        //handle update mode or insert mode
+//        //handle update mode or insert mode
+//        if (selectedItemEntity != null) {
+//         //   isInEditMode = true
+//            binding.etEditTitle.setText(selectedItemEntity!!.title)
+//            //set mouse pointer at the end of text just fill more than we are in edit mode
+//            binding.etEditTitle.setSelection(selectedItemEntity!!.title.length)
+//            binding.etEditDescription.setText(selectedItemEntity!!.description)
+//            when (selectedItemEntity!!.priority) {
+//                1 -> binding.radioGroup.check(R.id.radioButtonLow)
+//                2 -> binding.radioGroup.check(R.id.radioButtonMedium)
+//                else -> binding.radioGroup.check(R.id.radioButtonHigh)
+//            }
+//            binding.saveButton.text = "update"
+//            mainActivity.supportActionBar?.title = "update item"
+//            // if title contained quantity take it pas set the seekBar
+//            if (selectedItemEntity!!.title.contains("[")) {
+//                val startIndex = selectedItemEntity!!.title.indexOf("[")
+//                val endIndex = selectedItemEntity!!.title.indexOf("]")
+//                try {
+//                    val progress =
+//                        selectedItemEntity!!.title.substring(startIndex, endIndex).toInt()
+//                    binding.seekBar.progress = progress
+//                } catch (e: Exception) {
+//                    //Whoops
+//                }
+//            }
 
-        if (selectedItemEntity != null) {
-         //   isInEditMode = true
-            binding.etEditTitle.setText(selectedItemEntity!!.title)
+          //  check if data has been successfully saved ot updated then if we were updating, back to previous fragment, if we were inserting stay on this fragment
+        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){event ->
+            //it will be null only if it has content
+            event.getContent()?.let {
+                if (isInEditMode) {
+                    navigateUp()
+                    return@observe
+                }
+                Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
+                binding.etEditTitle.text?.clear()
+                //set mouse pointer to this field
+                binding.etEditDescription.requestFocus()
+                mainActivity.showKeyboard()
+                binding.etEditDescription.text?.clear()
+                binding.radioGroup.check(R.id.radioButtonLow)
+            }
+            // Show keyboard and default select our Title EditText when we get into this page
+            mainActivity.showKeyboard()
+            binding.etEditTitle.requestFocus()
+        }
+
+          //  in update mode check if selectedItemEntity in not empty the do this
+          //   .let means like if(selectedItemEntity != null)
+        selectedItemEntity?.let { itemEntity ->
+            isInEditMode = true
+            binding.etEditTitle.setText(itemEntity.title)
             //set mouse pointer at the end of text just fill more than we are in edit mode
-            binding.etEditTitle.setSelection(selectedItemEntity!!.title.length)
-            binding.etEditDescription.setText(selectedItemEntity!!.description)
-            when (selectedItemEntity!!.priority) {
+            binding.etEditTitle.setSelection(itemEntity.title.length)
+            binding.etEditDescription.setText(itemEntity.description)
+            when (itemEntity.priority) {
                 1 -> binding.radioGroup.check(R.id.radioButtonLow)
                 2 -> binding.radioGroup.check(R.id.radioButtonMedium)
                 else -> binding.radioGroup.check(R.id.radioButtonHigh)
             }
             binding.saveButton.text = "update"
             mainActivity.supportActionBar?.title = "update item"
-            // if title contained quantity take it pas set the seekBar
+            //if title contained quantity take it pas set the seekBar
             if (selectedItemEntity!!.title.contains("[")) {
                 val startIndex = selectedItemEntity!!.title.indexOf("[")
                 val endIndex = selectedItemEntity!!.title.indexOf("]")
@@ -100,48 +148,9 @@ class AddItemEntityFragment:BaseFragment() {
                     //Whoops
                 }
             }
-
-            //check if data has been successfully saved then reset the form
-//        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner){complete ->
-//            if (complete){
-//                //after click on save button ,run this so it exits this fragment
-//                if (isInEditMode){
-//                    navigateUp()
-//                    return@observe
-//                }
-//                Toast.makeText(requireContext(),"item saved!",Toast.LENGTH_SHORT).show()
-//                binding.etEditTitle.text?.clear()
-//                //set mouse pointer to this field
-//                binding.etEditDescription.requestFocus()
-//                mainActivity.showKeyboard()
-//                binding.etEditDescription.text?.clear()
-//                binding.radioGroup.check(R.id.radioButtonLow)
-//            }
-//            // Show keyboard and default select our Title EditText when we get into this page
-//            mainActivity.showKeyboard()
-//            binding.etEditTitle.requestFocus()
-//        }
-
-            //in update mode check if selectedItemEntity in not empty the do this
-            // .let means like if(selectedItemEntity != null)
-//        selectedItemEntity?.let { itemEntity ->
-//            isInEditMode=true
-//            binding.etEditTitle.setText(itemEntity.title)
-//            //set mouse pointer at the end of text just fill more than we are in edit mode
-//            binding.etEditTitle.setSelection(itemEntity.title.length)
-//            binding.etEditDescription.setText(itemEntity.description)
-//            when(itemEntity.priority){
-//                1 -> binding.radioGroup.check(R.id.radioButtonLow)
-//                2 -> binding.radioGroup.check(R.id.radioButtonMedium)
-//                else -> binding.radioGroup.check(R.id.radioButtonHigh)
-//            }
-//            binding.saveButton.text="update"
-//            mainActivity.supportActionBar?.title="update item"
-//        }
+        }
 
         }//FUN
-    }
-
 
         private fun saveEntityToDatabase() {
             val itemTitle = binding.etEditTitle.text.toString().trim()
@@ -159,36 +168,26 @@ class AddItemEntityFragment:BaseFragment() {
                 else -> 0
             }
 
-            if (selectedItemEntity != null) {
+            if (isInEditMode) {
                 val itemEntity = selectedItemEntity!!.copy(
                     title = itemTitle,
                     description = itemDescription,
                     priority = itemPriority
                 )
+
                 sharedViewModel.updateItem(itemEntity)
-                //came back to home page
-                navigateUp()
-            } else {
-                sharedViewModel.insertItem(
-                    ItemEntity(
-                        id = UUID.randomUUID().toString(),
-                        title = itemTitle,
-                        description = itemDescription,
-                        priority = itemPriority,
-                        createdAt = System.currentTimeMillis(),
-                        category = ""//TODO
-                    )
-                )
-                Toast.makeText(requireContext(), "item saved!", Toast.LENGTH_SHORT).show()
-                binding.etEditTitle.text?.clear()
-                //set mouse pointer to this field
-                binding.etEditDescription.requestFocus()
-                mainActivity.showKeyboard()
-                binding.etEditDescription.text?.clear()
-                binding.radioGroup.check(R.id.radioButtonLow)
-                // Show keyboard and default select our Title EditText when we get into this page
-                binding.etEditTitle.requestFocus()
+                return
             }
+
+            val itemEntity = ItemEntity(
+                id = UUID.randomUUID().toString(),
+                title = itemTitle,
+                description = itemDescription,
+                priority = itemPriority,
+                createdAt = System.currentTimeMillis(),
+                category= "" // todo update this later when we have categories in the app!
+            )
+            sharedViewModel.insertItem(itemEntity)
         }
 
 
