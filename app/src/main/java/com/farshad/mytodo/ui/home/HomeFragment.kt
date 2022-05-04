@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.airbnb.epoxy.EpoxyTouchHelper
 import com.farshad.mytodo.R
 import com.farshad.mytodo.database.entity.ItemEntity
+import com.farshad.mytodo.database.entity.ItemWithCategoryEntity
 import com.farshad.mytodo.databinding.FragmentHomeBinding
 import com.farshad.mytodo.ui.BaseFragment
 
@@ -29,8 +30,8 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         val controller=HomeEpoxyController(this)
         binding.epoxyRecyclerView.setController(controller)
 
-        sharedViewModel.itemEntityLiveData.observe(viewLifecycleOwner){itemEntityList ->
-            controller.itemEntity=itemEntityList as ArrayList<ItemEntity>
+        sharedViewModel.itemEntityWithCategoryLiveData.observe(viewLifecycleOwner){it ->
+            controller.itemList=it as ArrayList<ItemWithCategoryEntity>
         }
         binding.fab.setOnClickListener {
             navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)
@@ -47,8 +48,8 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
                     position: Int,
                     direction: Int
                 ) {
-                    val deletedItem=model?.itemEntity ?: return
-                    sharedViewModel.deleteItem(deletedItem)
+                    val deletedItem=model?.item ?: return
+                    sharedViewModel.deleteItem(deletedItem.itemEntity)
                 }
             })
 

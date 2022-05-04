@@ -9,6 +9,7 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.farshad.mytodo.R
+import com.farshad.mytodo.database.entity.CategoryEntity
 import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.databinding.FragmentAddItemEntityBinding
 import com.farshad.mytodo.ui.BaseFragment
@@ -21,9 +22,10 @@ class AddItemEntityFragment:BaseFragment() {
 
     private val safeArgs:AddItemEntityFragmentArgs by navArgs()
     private val selectedItemEntity :ItemEntity? by lazy {
-        sharedViewModel.itemEntityLiveData.value?.find {
-            it.id ==safeArgs.selectedItemEntityId
-        }
+        sharedViewModel.itemEntityWithCategoryLiveData.value?.find {
+            it.itemEntity.id ==safeArgs.selectedItemEntityId
+            //find is like itemEntityWithCategoryLiveData the we should add .itemEntity at the end to be match with private val selectedItemEntity :ItemEntity?
+        }?.itemEntity
     }
     private var isInEditMode:Boolean=false
 
@@ -150,9 +152,19 @@ class AddItemEntityFragment:BaseFragment() {
             }
         }
 
+        val controller=CategoryViewStateEpoxyModel(){categoryId->
+            sharedViewModel.onCategorySelected(categoryId)
+        }
+        sharedViewModel.categoriesViewStateLiveData.observe(viewLifecycleOwner){
+            controller.viewState=it
+        }
+        binding.categoryEpoxyRecyclerView.setController(controller)
+        //if were in insert mode set "NONE" as selectedItemEntity id, otherwise will set selected item id to selectedItemEntity
+        sharedViewModel.onCategorySelected(selectedItemEntity?.categoryId ?:CategoryEntity.DEFAULT_CATEGORY_ID,true)
+
         }//FUN
 
-        private fun saveEntityToDatabase() {
+    private fun saveEntityToDatabase() {
             val itemTitle = binding.etEditTitle.text.toString().trim()
             if (itemTitle.isEmpty()) {
                 binding.etTitle.error = "* Required Field"
@@ -168,11 +180,14 @@ class AddItemEntityFragment:BaseFragment() {
                 else -> 0
             }
 
+            val itemCategory=sharedViewModel.categoriesViewStateLiveData.value?.getSelectedCategoryId() ?:return
+
             if (isInEditMode) {
                 val itemEntity = selectedItemEntity!!.copy(
                     title = itemTitle,
                     description = itemDescription,
-                    priority = itemPriority
+                    priority = itemPriority,
+                    categoryId = itemCategory
                 )
 
                 sharedViewModel.updateItem(itemEntity)
@@ -185,7 +200,7 @@ class AddItemEntityFragment:BaseFragment() {
                 description = itemDescription,
                 priority = itemPriority,
                 createdAt = System.currentTimeMillis(),
-                category= "" // todo update this later when we have categories in the app!
+                categoryId= itemCategory
             )
             sharedViewModel.insertItem(itemEntity)
         }

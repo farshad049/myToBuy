@@ -4,6 +4,7 @@ import android.content.ClipData
 import com.farshad.mytodo.database.AppDatabase
 import com.farshad.mytodo.database.entity.CategoryEntity
 import com.farshad.mytodo.database.entity.ItemEntity
+import com.farshad.mytodo.database.entity.ItemWithCategoryEntity
 import kotlinx.coroutines.flow.Flow
 
 class ToBuyRepository(private val appDatabase:AppDatabase) {
@@ -21,7 +22,11 @@ class ToBuyRepository(private val appDatabase:AppDatabase) {
         appDatabase.itemEntityDao().update(itemEntity)
     }
 
-     fun getAllItems():Flow<List<ItemEntity>>{
+     fun getAllItemWithCategoryEntity():Flow<List<ItemWithCategoryEntity>>{
+        return appDatabase.itemEntityDao().getAllItemWithCategoryEntity()
+    }
+
+    fun getAllItems():Flow<List<ItemEntity>>{
         return appDatabase.itemEntityDao().getAllItemEntities()
     }
     //endregion itemEntity

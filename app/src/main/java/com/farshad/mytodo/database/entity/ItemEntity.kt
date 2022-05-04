@@ -10,7 +10,6 @@ data class ItemEntity (
     val description:String?=null,
     val priority:Int=0,
     val createdAt:Long=0L,
-    val category:String=""
-
+    val categoryId:String=""
     )
 
