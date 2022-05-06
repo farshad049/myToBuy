@@ -30,8 +30,8 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         val controller=HomeEpoxyController(this)
         binding.epoxyRecyclerView.setController(controller)
 
-        sharedViewModel.itemEntityWithCategoryLiveData.observe(viewLifecycleOwner){it ->
-            controller.itemList=it as ArrayList<ItemWithCategoryEntity>
+        sharedViewModel.homeViewStateLiveData.observe(viewLifecycleOwner){it ->
+            controller.viewState=it
         }
         binding.fab.setOnClickListener {
             navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)

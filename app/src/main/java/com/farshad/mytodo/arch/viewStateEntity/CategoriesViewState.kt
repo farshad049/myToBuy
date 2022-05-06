@@ -1,11 +1,13 @@
-package com.farshad.mytodo.database.entity
+package com.farshad.mytodo.arch.viewStateEntity
 
-data class CategoriesViewStateModel(
+import com.farshad.mytodo.database.entity.CategoryEntity
+
+data class CategoriesViewState(
     val isLoading:Boolean=false,
     val itemList:List<Item> = emptyList()
 ){
     data class Item(
-        val categoryEntity: CategoryEntity= CategoryEntity(),
+        val categoryEntity: CategoryEntity = CategoryEntity(),
         val isSelected:Boolean=false
     )
     fun getSelectedCategoryId():String{

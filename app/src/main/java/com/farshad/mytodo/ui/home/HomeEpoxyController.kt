@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyController
 import com.farshad.mytodo.R
 import com.farshad.mytodo.addHeaderModel
+import com.farshad.mytodo.arch.viewStateEntity.HomeViewState
 import com.farshad.mytodo.database.entity.ItemWithCategoryEntity
 import com.farshad.mytodo.databinding.EpoxyModelEmptyBinding
 import com.farshad.mytodo.databinding.ItemEntityBinding
@@ -17,39 +18,41 @@ class HomeEpoxyController(
     private val itemEntityInterface:ItemEntityInterface
 ):EpoxyController(){
 
-    var isLoading:Boolean=true
-        set(value) {
-            field=value
-            if (field){
-                requestModelBuild()
-            }
-        }
-    
-    var itemList = ArrayList<ItemWithCategoryEntity>()
-        set(value) {
-            field=value
-            isLoading=false
-            requestModelBuild()
-        }
+    var viewState:HomeViewState= HomeViewState(isLoading = true)
+    set(value) {
+        field=value
+        requestModelBuild()
+    }
     
     override fun buildModels() {
-        if (isLoading){
+        if (viewState.isLoading){
             LoadingEpoxyModel().id("loading_state").addTo(this)
         }
 
-        if (itemList.isEmpty()){
+        if (viewState.dataList.isEmpty()){
             EmptyEpoxyModel().id("empty_state").addTo(this)
         }
-        //in order not to set header for every item, but just for every priority
-        var currentPriority:Int=-1
-        itemList.sortedByDescending { it.itemEntity.priority }.forEach { it ->
-            if (it.itemEntity.priority != currentPriority){
-                currentPriority = it.itemEntity.priority
-                val text=takePriorityText(currentPriority)
-                addHeaderModel(text)
+
+
+        viewState.dataList.forEach {
+            if (it.isHeader){
+                addHeaderModel(it.data.toString())
+                //just return the forEach not entire function
+                return@forEach
             }
-            ItemEntityEpoxyModel(it,itemEntityInterface).id(it.itemEntity.id).addTo(this)
+            val itemWithCategoryEntity=it.data as ItemWithCategoryEntity
+            ItemEntityEpoxyModel(itemWithCategoryEntity,itemEntityInterface)
+                .id(itemWithCategoryEntity.itemEntity.id)
+                .addTo(this)
         }
+
+
+
+
+
+
+
+
     }
 
     data class ItemEntityEpoxyModel(val item: ItemWithCategoryEntity,val itemEntityInterface:ItemEntityInterface)
@@ -62,6 +65,7 @@ class HomeEpoxyController(
                 tvDescription.isVisible
                 tvDescription.text=item.itemEntity.description
             }
+            tvCategory.text=item.categoryEntity?.name
             tvPriority.setOnClickListener {
                 itemEntityInterface.onBumpPriority(item.itemEntity)
             }
@@ -84,16 +88,6 @@ class HomeEpoxyController(
 
 
 
-
-
-
-    private fun takePriorityText(priority:Int):String{
-        return when(priority){
-            1 -> "low"
-            2 -> "medium"
-            else -> "High"
-        }
-    }
 
     class EmptyEpoxyModel: ViewBindingKotlinModel<EpoxyModelEmptyBinding>(R.layout.epoxy_model_empty){
         override fun EpoxyModelEmptyBinding.bind() {
