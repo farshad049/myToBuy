@@ -38,6 +38,7 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         sharedViewModel.homeViewStateLiveData.observe(viewLifecycleOwner){it ->
             controller.viewState=it
         }
+
         binding.fab.setOnClickListener {
             navigateViaNavGraph(R.id.action_homeFragment_to_addItemEntityFragment)
         }

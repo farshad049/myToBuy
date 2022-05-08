@@ -25,6 +25,8 @@ class SortOrderBottomSheetDialogFragment:BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //we manage setOnClickListener by changed on HomeViewState.Sort.values
+        //means every time that sort has been changed then update currentSort which also runs a function include in ToBuyViewModel
         val controller = BottomSheetEpoxyController(HomeViewState.Sort.values()){
             viewModel.currentSort=it
         }

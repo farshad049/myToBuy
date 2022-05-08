@@ -41,6 +41,7 @@
         tools:listitem="@layout/model_sort_order"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
+        android:paddingBottom="32dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

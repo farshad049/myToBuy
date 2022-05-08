@@ -1,6 +1,7 @@
 package com.farshad.mytodo.arch
 
 
+import android.util.Log.d
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +35,7 @@ class ToBuyViewModel:ViewModel() {
     var currentSort:HomeViewState.Sort=HomeViewState.Sort.NONE
         set(value) {
             field=value//update our value
+            //this function calls when we change the sort
             updateHomeViewState(itemEntityWithCategoryLiveData.value!!)
         }
 
@@ -88,16 +90,44 @@ class ToBuyViewModel:ViewModel() {
                 }
             }
 
-            HomeViewState.Sort.CATEGORY->{
-
+            HomeViewState.Sort.CATEGORY ->{
+                var currentCategory:String?="no_id"
+                items.sortedBy { it.categoryEntity?.name ?: "None"}.forEach {
+                    if (it.itemEntity.categoryId != currentCategory){
+                        currentCategory=it.itemEntity.categoryId
+                        val headerItem=HomeViewState.DataItem(
+                            data = it.categoryEntity?.name ?:"No category",
+                            isHeader = true
+                        )
+                        dataList.add(headerItem)
+                    }
+                    val dataItem=HomeViewState.DataItem(data = it)
+                    dataList.add(dataItem)
+                }
             }
 
-            HomeViewState.Sort.NEWEST->{
-
+            HomeViewState.Sort.NEWEST ->{
+                val headerItem=HomeViewState.DataItem(
+                    data = "Newest",
+                    isHeader = true
+                )
+                dataList.add(headerItem)
+                items.sortedByDescending { it.itemEntity.createdAt }.forEach {
+                    val dataItem=HomeViewState.DataItem(data = it)
+                    dataList.add(dataItem)
+                }
             }
 
             HomeViewState.Sort.OLDEST->{
-
+                val headerItem=HomeViewState.DataItem(
+                    data = "Oldest",
+                    isHeader = true
+                )
+                dataList.add(headerItem)
+                items.sortedBy{ it.itemEntity.createdAt }.forEach {
+                    val dataItem=HomeViewState.DataItem(data = it)
+                    dataList.add(dataItem)
+                }
             }
         }
 
