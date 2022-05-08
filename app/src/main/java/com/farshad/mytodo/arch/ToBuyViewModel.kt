@@ -32,6 +32,11 @@ class ToBuyViewModel:ViewModel() {
 
     //this is for home page
     var currentSort:HomeViewState.Sort=HomeViewState.Sort.NONE
+        set(value) {
+            field=value//update our value
+            updateHomeViewState(itemEntityWithCategoryLiveData.value!!)
+        }
+
     private val _homeViewStateLiveData=MutableLiveData<HomeViewState>()
     val homeViewStateLiveData:LiveData<HomeViewState>
         get() = _homeViewStateLiveData

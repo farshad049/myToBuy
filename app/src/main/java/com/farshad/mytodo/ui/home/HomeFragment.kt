@@ -1,9 +1,7 @@
 package com.farshad.mytodo.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.airbnb.epoxy.EpoxyTouchHelper
@@ -12,12 +10,19 @@ import com.farshad.mytodo.database.entity.ItemEntity
 import com.farshad.mytodo.database.entity.ItemWithCategoryEntity
 import com.farshad.mytodo.databinding.FragmentHomeBinding
 import com.farshad.mytodo.ui.BaseFragment
+import com.farshad.mytodo.ui.home.bottomSheet.SortOrderBottomSheetDialogFragment
 
 class HomeFragment:BaseFragment(),ItemEntityInterface {
 
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    //we want this fragment to update the action bar in order to set sort menu
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -83,6 +88,23 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         val navDirections=HomeFragmentDirections.actionHomeFragmentToAddItemEntityFragment(itemEntity.id)
         navigateViaNavGraphSafeArg(navDirections)
     }
+    //enable select menu item sort
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_home_fragment,menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == R.id.menuItemSort){
+            SortOrderBottomSheetDialogFragment().show(childFragmentManager,null)
+            true
+        }else{
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+
+
+
 
     override fun onResume() {
         super.onResume()
