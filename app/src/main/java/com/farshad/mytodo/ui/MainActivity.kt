@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.farshad.mytodo.R
+import com.farshad.mytodo.SharedPrefUtil
 import com.farshad.mytodo.arch.ToBuyViewModel
 import com.farshad.mytodo.database.AppDatabase
 import com.farshad.mytodo.databinding.ActivityMainBinding
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         val viewModel:ToBuyViewModel by viewModels()
         viewModel.init(AppDatabase.getDatabase(this))
 
+        //for color picker
+        SharedPrefUtil.init(this)
+
         //enable the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         //enable the action bar
         appBarConfiguration=
             //set up this fragments to be as top level fragments in order to don't show toolbar back button in this fragment
-            AppBarConfiguration(setOf(R.id.homeFragment,R.id.profileFragment))
+            AppBarConfiguration(setOf(R.id.homeFragment,R.id.CustomizationFragment))
         //set up fragment title in toolbar
         setupActionBarWithNavController(navController,appBarConfiguration)
 

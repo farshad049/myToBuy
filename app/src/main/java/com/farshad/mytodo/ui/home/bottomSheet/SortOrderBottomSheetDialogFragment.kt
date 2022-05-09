@@ -27,8 +27,10 @@ class SortOrderBottomSheetDialogFragment:BottomSheetDialogFragment() {
 
         //we manage setOnClickListener by changed on HomeViewState.Sort.values
         //means every time that sort has been changed then update currentSort which also runs a function include in ToBuyViewModel
-        val controller = BottomSheetEpoxyController(HomeViewState.Sort.values()){
+        val controller = BottomSheetEpoxyController(viewModel.currentSort,HomeViewState.Sort.values()){
             viewModel.currentSort=it
+            //this close the fragment and also help up to update styling for selected option
+            dismiss()
         }
         binding.epoxyRecyclerViewSort.setControllerAndBuildModels(controller)
 

@@ -8,10 +8,10 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
-        android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_person_24"
+        android:id="@+id/CustomizationFragment"
+        android:icon="@drawable/ic_auto_fix_high_24"
         android:orderInCategory="2"
-        android:title="Profile"
+        android:title="Customization"
         app:showAsAction="always" />
 
 </menu>

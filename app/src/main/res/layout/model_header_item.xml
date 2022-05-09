@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="?attr/background"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnBackground"
         android:padding="12dp"
         />
 

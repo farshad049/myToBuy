@@ -32,18 +32,21 @@
 
 
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.farshad.mytodo.ui.profile.ProfileFragment"
-        android:label="ProfileFragment"
+        android:id="@+id/CustomizationFragment"
+        android:name="com.farshad.mytodo.ui.Customization.CustomizationFragment"
+        android:label="CustomizationFragment"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_addCategoryFragment"
             app:destination="@id/addCategoryFragment" />
+        <action
+            android:id="@+id/action_CustomizationFragment_to_colorPickerFragment"
+            app:destination="@id/colorPickerFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/addCategoryFragment"
-        android:name="com.farshad.mytodo.ui.profile.AddCategoryFragment"
+        android:name="com.farshad.mytodo.ui.Customization.AddCategoryFragment"
         android:label="AddCategoryFragment"
         tools:layout="@layout/fragment_add_category">
         <argument
@@ -54,6 +57,17 @@
             />
     </fragment>
 
+    <fragment
+        android:id="@+id/colorPickerFragment"
+        android:name="com.farshad.mytodo.ui.colorPicker.ColorPickerFragment"
+        android:label="ColorPickerFragment"
+        tools:layout="@layout/fragment_color_picker">
+        <argument
+            android:name="priorityName"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 
 
 </navigation>

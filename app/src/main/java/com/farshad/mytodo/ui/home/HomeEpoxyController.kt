@@ -6,6 +6,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyController
 import com.farshad.mytodo.R
+import com.farshad.mytodo.SharedPrefUtil
 import com.farshad.mytodo.addHeaderModel
 import com.farshad.mytodo.arch.viewStateEntity.HomeViewState
 import com.farshad.mytodo.database.entity.ItemWithCategoryEntity
@@ -69,13 +70,12 @@ class HomeEpoxyController(
             tvPriority.setOnClickListener {
                 itemEntityInterface.onBumpPriority(item.itemEntity)
             }
-            val colorRes = when (item.itemEntity.priority) {
-                1 -> android.R.color.holo_green_dark
-                2 -> android.R.color.holo_orange_dark
-                3 -> android.R.color.holo_red_dark
-                else -> R.color.purple_700
+            val color = when (item.itemEntity.priority) {
+                1 -> SharedPrefUtil.getLowPriorityColor()
+                2 -> SharedPrefUtil.getMediumPriorityColor()
+                3 -> SharedPrefUtil.getHighPriorityColor()
+                else -> R.color.purple_200
             }
-            val color=ContextCompat.getColor(root.context, colorRes)
             tvPriority.setBackgroundColor(color)
             //set stroke color for items
             root.setStrokeColor(ColorStateList.valueOf(color))

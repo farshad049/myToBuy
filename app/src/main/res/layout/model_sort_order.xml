@@ -6,8 +6,8 @@
     android:background="?selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitleSort"
-        android:layout_width="match_parent"
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Category"
         app:layout_constraintTop_toTopOf="parent"
@@ -15,6 +15,21 @@
         android:textSize="16sp"
         android:layout_margin="16dp"
         android:textColor="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintEnd_toStartOf="@id/view"
+
+        />
+    <View
+        android:id="@+id/view"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvTitleSort"
+        android:background="@drawable/square_filled"
+        android:layout_margin="16dp"
+        android:visibility="gone"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

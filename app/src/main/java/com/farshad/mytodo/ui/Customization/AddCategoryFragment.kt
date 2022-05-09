@@ -1,4 +1,4 @@
-package com.farshad.mytodo.ui.profile
+package com.farshad.mytodo.ui.Customization
 
 import android.os.Bundle
 import android.view.LayoutInflater

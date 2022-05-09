@@ -26,6 +26,10 @@ abstract class BaseFragment:Fragment() {
         mainActivity.navController.navigate(actionId)
     }
 
+    protected fun navigateViaNavGraph(navDirections: NavDirections) {
+        mainActivity.navController.navigate(navDirections)
+    }
+
     protected fun navigateViaNavGraphSafeArg(navDirections: NavDirections) {
         mainActivity.navController.navigate(navDirections)
     }

@@ -31,7 +31,7 @@ class ToBuyViewModel:ViewModel() {
     val categoriesViewStateLiveData:LiveData<CategoriesViewState>
         get() = _categoriesViewStateLiveData
 
-    //this is for home page
+    //this is for home page.look line 65
     var currentSort:HomeViewState.Sort=HomeViewState.Sort.NONE
         set(value) {
             field=value//update our value

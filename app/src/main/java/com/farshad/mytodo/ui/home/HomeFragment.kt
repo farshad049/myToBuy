@@ -2,12 +2,9 @@ package com.farshad.mytodo.ui.home
 
 import android.os.Bundle
 import android.view.*
-import androidx.navigation.NavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.airbnb.epoxy.EpoxyTouchHelper
 import com.farshad.mytodo.R
 import com.farshad.mytodo.database.entity.ItemEntity
-import com.farshad.mytodo.database.entity.ItemWithCategoryEntity
 import com.farshad.mytodo.databinding.FragmentHomeBinding
 import com.farshad.mytodo.ui.BaseFragment
 import com.farshad.mytodo.ui.home.bottomSheet.SortOrderBottomSheetDialogFragment

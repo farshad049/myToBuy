@@ -4,22 +4,29 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_add_24.xml" value="0.2985" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_auto_fix_high_24.xml" value="0.2595" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_delete_24.xml" value="0.2985" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_edit_24.xml" value="0.196" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_home_24.xml" value="0.2595" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_person_24.xml" value="0.2595" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/ic_sort_24.xml" value="0.2595" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/drawable/square_filled.xml" value="0.2595" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/bottom_sheet_sort_order.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/color_picker_slider.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/epoxy_model_empty.xml" value="0.33796296296296297" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/epoxy_model_loading.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/fragment_add_item_entity.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/fragment_color_picker.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/item_entity.xml" value="0.5" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/model_category.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/model_empty_button.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/model_header_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/model_priority_color_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/model_sort_order.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/layout/profile_fragment.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/menu/menu_bottom_app.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/myToBuy/app/src/main/res/menu/menu_home_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/farshad/AndroidStudioProjects/MyToDo/app/src/main/res/layout/activity_main.xml" value="0.2203125" />
